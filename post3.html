@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Brilliant Parrot Problem — SquareCircle</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f8f7f4; --surface: #ffffff; --surface2: #f1f0ed; --border: #e4e2dd; --text: #1a1917; --text2: #6b6860; --text3: #9c9a94; --accent: #ff6b2b; --tag-bg: #fff0e8; --tag-text: #c44a00; --radius: 12px; --radius-sm: 8px; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+  nav { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+  .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon { width: 32px; height: 32px; }
+  .logo-icon svg { width: 100%; height: 100%; }
+  .logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; color: var(--text); letter-spacing: -0.02em; }
+  .logo-text span { color: var(--accent); }
+  .nav-links { display: flex; align-items: center; gap: 4px; }
+  .nav-link { padding: 6px 12px; border-radius: var(--radius-sm); text-decoration: none; font-size: 13px; font-weight: 500; color: var(--text2); transition: all 0.15s; }
+  .nav-link:hover { background: var(--surface2); color: var(--text); }
+  .nav-btn { padding: 7px 16px; border-radius: 20px; background: var(--text); color: white; font-size: 13px; font-weight: 500; text-decoration: none; transition: all 0.15s; }
+  .nav-btn:hover { background: var(--accent); }
+  .article-wrap { max-width: 1200px; margin: 0 auto; padding: 48px 24px; display: grid; grid-template-columns: 1fr 300px; gap: 48px; align-items: start; }
+  article { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; animation: fadein 0.5s ease both; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .article-header { padding: 40px 48px 32px; border-bottom: 1px solid var(--border); background: linear-gradient(135deg, #fff8f5 0%, #ffffff 70%); }
+  .article-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .post-type-badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; background: var(--tag-bg); color: var(--tag-text); }
+  .article-date { font-size: 12px; color: var(--text3); font-family: 'DM Mono', monospace; }
+  .article-title { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 16px; }
+  .article-title .highlight { color: var(--accent); }
+  .article-subtitle { font-size: 18px; color: var(--text2); font-weight: 300; line-height: 1.6; font-style: italic; }
+  .article-body { padding: 40px 48px; }
+  .article-body p { font-size: 17px; line-height: 1.8; color: var(--text); margin-bottom: 24px; font-weight: 300; }
+  .article-body h2 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin: 40px 0 16px; }
+  .article-body strong { font-weight: 600; }
+  .article-body em { font-style: italic; color: var(--text2); }
+  .pull-quote { margin: 36px 0; padding: 24px 32px; border-left: 4px solid var(--accent); background: var(--tag-bg); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .pull-quote p { font-family: 'Syne', sans-serif; font-size: 20px !important; font-weight: 700 !important; line-height: 1.4 !important; color: var(--text) !important; margin-bottom: 8px !important; }
+  .pull-quote cite { font-size: 12px; color: var(--text3); font-family: 'DM Mono', monospace; font-style: normal; }
+  .compare-box { margin: 36px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .compare-card { padding: 20px; border-radius: var(--radius); border: 1px solid var(--border); }
+  .compare-card.parrot { background: #fff8f5; border-color: #ffd4b8; }
+  .compare-card.human { background: #e6f7f1; border-color: #b3e8d4; }
+  .compare-label { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+  .compare-card.parrot .compare-label { color: var(--tag-text); }
+  .compare-card.human .compare-label { color: #006644; }
+  .compare-card h3 { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .compare-card p { font-size: 13px; color: var(--text2); line-height: 1.6; font-weight: 300; margin-bottom: 0 !important; }
+  .the-question { margin: 40px 0; padding: 32px; background: var(--text); border-radius: var(--radius); }
+  .question-label { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 16px; }
+  .question-text { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; margin-bottom: 20px; color: white !important; }
+  .question-subtext { font-size: 15px; color: #a09e98 !important; font-weight: 300; line-height: 1.7; }
+  .comment-section { border-top: 1px solid var(--border); padding: 40px 48px; }
+  .comment-section h2 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.02em; }
+  .comment-form { display: flex; flex-direction: column; gap: 12px; }
+  .comment-input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .comment-input { padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: 'DM Sans', sans-serif; outline: none; background: var(--surface); transition: all 0.2s; color: var(--text); }
+  .comment-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,107,43,0.1); }
+  .comment-input::placeholder { color: var(--text3); }
+  textarea.comment-input { resize: vertical; min-height: 100px; }
+  .comment-submit { padding: 10px 24px; background: var(--accent); color: white; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; align-self: flex-start; transition: all 0.15s; }
+  .comment-submit:hover { background: #e55a1f; }
+  .sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 80px; }
+  .sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .sidebar-header { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .sidebar-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text2); }
+  .toc-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 4px; }
+  .toc-item { padding: 6px 8px; border-radius: 6px; font-size: 13px; color: var(--text2); cursor: pointer; transition: all 0.15s; text-decoration: none; display: block; }
+  .toc-item:hover { background: var(--surface2); color: var(--accent); }
+  .newsletter-box { padding: 16px; background: linear-gradient(135deg, #fff8f5, #fff); }
+  .newsletter-box p { font-size: 13px; color: var(--text2); margin-bottom: 12px; line-height: 1.5; font-weight: 300; }
+  .newsletter-input-row { display: flex; gap: 6px; }
+  .newsletter-input { flex: 1; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: 'DM Sans', sans-serif; outline: none; }
+  .newsletter-input:focus { border-color: var(--accent); }
+  .newsletter-btn { padding: 8px 14px; border-radius: var(--radius-sm); background: var(--accent); color: white; font-size: 13px; font-weight: 600; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  footer { border-top: 1px solid var(--border); background: var(--surface); padding: 32px 24px; margin-top: 32px; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .footer-tagline { font-size: 13px; color: var(--text3); font-family: 'DM Mono', monospace; }
+  .footer-links { display: flex; gap: 16px; }
+  .footer-link { font-size: 13px; color: var(--text3); text-decoration: none; }
+  .footer-link:hover { color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .nav-search { display: none; }
+    .nav-links .nav-link { display: none; }
+    .hero-inner { flex-direction: column; gap: 24px; }
+    .hero-visual { width: 120px; height: 120px; align-self: center; }
+    .hero-text h1 { font-size: 28px; }
+    .main { grid-template-columns: 1fr; padding: 16px; }
+    .sidebar { display: none; }
+    .stats-inner { flex-wrap: wrap; gap: 16px; }
+    .hero { padding: 24px 16px; }
+    .post-card { padding: 16px; }
+    .post-card-title { font-size: 16px; }
+    .article-wrap { grid-template-columns: 1fr; padding: 16px; }
+    .article-header { padding: 24px 20px; }
+    .article-title { font-size: 24px; }
+    .article-body { padding: 24px 20px; }
+    .article-body p { font-size: 15px; }
+    .comment-section { padding: 24px 20px; }
+    .comment-input-row { grid-template-columns: 1fr; }
+    .pull-quote { padding: 16px 20px; margin: 24px 0; }
+    .pull-quote p { font-size: 16px !important; }
+    .the-question { padding: 20px; }
+    .question-text { font-size: 18px; }
+    .ladder-rungs { padding: 12px; }
+    .compare-box { grid-template-columns: 1fr; }
+    .three-box { grid-template-columns: 1fr; }
+    .examples-grid { grid-template-columns: 1fr; }
+    .proof-box { padding: 20px; }
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+    .nav-inner { padding: 0 16px; }
+    .filter-tabs { overflow-x: auto; }
+    .hero-tags { gap: 6px; }
+    .hero-tag { font-size: 11px; }
+  }
+
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><svg viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="14" height="14" rx="2" stroke="#ff6b2b" stroke-width="2.5"/><circle cx="22" cy="22" r="8" stroke="#ff6b2b" stroke-width="2.5"/><rect x="10" y="10" width="12" height="12" rx="6" fill="#ff6b2b" opacity="0.15"/></svg></div>
+      <span class="logo-text">square<span>circle</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">← All Posts</a>
+      <a href="https://subscribe-forms.beehiiv.com/281e99f2-9472-4476-965c-6b11a6130c44" target="_blank" class="nav-btn">Subscribe</a>
+    </div>
+  </div>
+</nav>
+
+<div class="article-wrap">
+  <article>
+    <div class="article-header">
+      <div class="article-meta">
+        <span class="post-type-badge">Essay</span>
+        <span class="article-date">Feb 21, 2026</span>
+        <span class="article-date">6 min read</span>
+      </div>
+      <h1 class="article-title">The Brilliant <span class="highlight">Parrot</span> Problem</h1>
+      <p class="article-subtitle">More parameters, more data, more compute — but are we getting closer to genuine understanding, or just a more convincing performance?</p>
+    </div>
+
+    <div class="article-body">
+      <p>A parrot can learn to say the right things in the right contexts so convincingly that it seems to understand. Feed it enough examples, and it will produce remarkably appropriate responses. But rearrange the situation in a novel way — ask it something it has never heard before — and it falls apart. It was mimicking patterns, not understanding cause and effect.</p>
+
+      <p>This is the central anxiety about large language models. Not that they are stupid — they are clearly not stupid. But that they might be doing something fundamentally different from understanding, something that merely <em>looks</em> like understanding from the outside.</p>
+
+      <p>The question is whether that distinction matters. And if so, when.</p>
+
+      <h2>The Case for Scaling</h2>
+
+      <p>The optimists have a compelling argument. Every time researchers have declared a ceiling — "AI will never do X" — the next generation of models has done X. Chess. Go. Protein folding. Legal reasoning. Medical diagnosis. Creative writing. The list of supposed ceilings that have been broken is long and embarrassing for those who drew the lines.</p>
+
+      <p>The scaling hypothesis — roughly, that more data and more compute produce proportionally more capable models — has held up remarkably well. There's no obvious reason it stops. And the emergent behaviors that appear at scale — abilities that weren't explicitly trained for, that just appear when models get big enough — suggest that something more than pattern memorization may be happening.</p>
+
+      <div class="pull-quote">
+        <p>"The parrot analogy breaks down when the parrot starts correcting your grammar, teaching you new concepts, and pointing out flaws in your reasoning."</p>
+        <cite>— The strongest counterargument to the Brilliant Parrot critique</cite>
+      </div>
+
+      <h2>The Case Against</h2>
+
+      <p>But the skeptics point to something the scaling optimists often sidestep: the <strong>distribution shift problem</strong>. AI systems trained on one distribution of data can fail catastrophically when the real world presents something outside that distribution. A self-driving car trained in sunny California struggles in a Minnesota snowstorm — not because it needs more data about sunny California, but because it never developed a genuine causal model of how cars, roads, and traction relate.</p>
+
+      <p>This is Judea Pearl's critique in technical form. Correlation-based learning — however vast the dataset — cannot reliably generalize to truly novel situations, because novel situations by definition fall outside the correlational patterns the model learned. Only a causal model — a genuine understanding of <em>why</em> things happen — can reliably extrapolate.</p>
+
+      <div class="compare-box">
+        <div class="compare-card parrot">
+          <div class="compare-label">The Parrot</div>
+          <h3>Pattern Completion</h3>
+          <p>Given enough examples, learns to produce the statistically likely next token. Extraordinarily powerful within distribution. Brittle at the edges. Cannot explain its own reasoning from first principles.</p>
+        </div>
+        <div class="compare-card human">
+          <div class="compare-label">The Understander</div>
+          <h3>Causal Modeling</h3>
+          <p>Builds internal models of how the world works. Can reason about novel situations by simulating them. Can explain reasoning in terms of causes, not just correlations. Generalizes from principles.</p>
+        </div>
+      </div>
+
+      <h2>The Honest Middle Ground</h2>
+
+      <p>The truth is probably somewhere uncomfortable. Current AI systems are doing <em>something</em> more than pure pattern matching — the emergent reasoning abilities are real. But they're doing something less than full causal understanding — the distribution shift failures are real too.</p>
+
+      <p>The most likely path forward isn't choosing between scaling and causal reasoning. It's finding ways to combine them — world models, neurosymbolic architectures, embodied learning — so that the raw power of scale gets grounded in something more like genuine understanding of why.</p>
+
+      <p>The parrot is getting smarter. Whether it's on its way to understanding, or just becoming a more convincing parrot, may be the most important open question in AI.</p>
+
+      <div class="the-question">
+        <div class="question-label">// The Question</div>
+        <p class="question-text">Is there a meaningful difference between "acts intelligent" and "is intelligent" — and does it matter?</p>
+        <p class="question-subtext">If a system produces outputs indistinguishable from understanding — gives correct answers, catches errors, teaches new concepts, adapts to novel situations — at what point does the distinction between "genuine" understanding and "mere" pattern matching become philosophically meaningful rather than practically important? And conversely: are there situations where that distinction becomes critically important, even if you can't detect it from the outside?</p>
+      </div>
+    </div>
+
+    <div class="comment-section">
+      <h2>Join the Dialogue</h2>
+      <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://squarecircle.blog/post3';
+        this.page.identifier = 'brilliant-parrot-problem';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://squarecircle-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+  </article>
+
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-header"><span class="sidebar-title">In this post</span></div>
+      <div class="toc-list">
+        <a href="#" class="toc-item">The Parrot Analogy</a>
+        <a href="#" class="toc-item">The Case for Scaling</a>
+        <a href="#" class="toc-item">The Case Against</a>
+        <a href="#" class="toc-item">The Honest Middle Ground</a>
+        <a href="#" class="toc-item">The Question</a>
+      </div>
+    </div>
+    <div class="sidebar-card" id="subscribe">
+      <div class="sidebar-header"><span class="sidebar-title">Stay at the Edge</span></div>
+      <div style="padding:16px;">
+        <p style="font-size:13px;color:#6b6860;margin-bottom:12px;line-height:1.5;font-weight:300;">New posts on AI, logic, and paradoxes — when they're ready.</p>
+        <div style="display:flex;gap:6px;">
+          <input type="email" id="sub-email" placeholder="your@email.com" style="flex:1;padding:8px 12px;border:1px solid #e4e2dd;border-radius:8px;font-size:13px;outline:none;">
+          <button onclick="doSubscribe()" style="padding:8px 14px;border-radius:8px;background:#ff6b2b;color:white;font-size:13px;font-weight:600;border:none;cursor:pointer;">Go</button>
+        </div>
+        <p id="sub-msg" style="display:none;margin-top:8px;font-size:12px;color:#006644;font-family:monospace;">✓ Opening signup — check your inbox!</p>
+      </div>
+    </div>
+    <script>
+    function doSubscribe() {
+      var email = document.getElementById('sub-email').value;
+      if (!email) return;
+      window.open('https://subscribe-forms.beehiiv.com/281e99f2-9472-4476-965c-6b11a6130c44?email=' + encodeURIComponent(email), '_blank');
+      document.getElementById('sub-msg').style.display = 'block';
+      document.getElementById('sub-email').value = '';
+    }
+    </script>
+
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div style="display:flex;align-items:center;gap:16px;">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><svg viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="14" height="14" rx="2" stroke="#ff6b2b" stroke-width="2.5"/><circle cx="22" cy="22" r="8" stroke="#ff6b2b" stroke-width="2.5"/></svg></div>
+        <span class="logo-text">square<span>circle</span></span>
+      </a>
+      <span class="footer-tagline">// where logic meets its edge</span>
+    </div>
+    <div class="footer-links">
+      <a href="index.html" class="footer-link">Home</a>
+      <a href="about.html" class="footer-link">About</a>
+    </div>
+  </div>
+</footer>
+<script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
+</body>
+</html>

@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SquareCircle — Where Logic Meets Its Edge</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f7f4;
+    --surface: #ffffff;
+    --surface2: #f1f0ed;
+    --border: #e4e2dd;
+    --text: #1a1917;
+    --text2: #6b6860;
+    --text3: #9c9a94;
+    --accent: #ff6b2b;
+    --accent2: #ffb347;
+    --accent3: #2b5fff;
+    --tag-bg: #fff0e8;
+    --tag-text: #c44a00;
+    --green: #00a86b;
+    --green-bg: #e6f7f1;
+    --purple: #7c3aed;
+    --purple-bg: #f3eeff;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    --shadow-hover: 0 4px 12px rgba(0,0,0,0.1), 0 16px 40px rgba(0,0,0,0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .logo-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .logo-text span {
+    color: var(--accent);
+  }
+
+  .nav-search {
+    flex: 1;
+    max-width: 400px;
+    position: relative;
+  }
+
+  .nav-search input {
+    width: 100%;
+    padding: 8px 14px 8px 36px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--surface2);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    transition: all 0.2s;
+  }
+
+  .nav-search input:focus {
+    border-color: var(--accent);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px rgba(255,107,43,0.1);
+  }
+
+  .nav-search input::placeholder { color: var(--text3); }
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    width: 14px;
+    height: 14px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav-link {
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    transition: all 0.15s;
+  }
+
+  .nav-link:hover { background: var(--surface2); color: var(--text); }
+  .nav-link.active { color: var(--accent); background: var(--tag-bg); }
+
+  .nav-btn {
+    padding: 7px 16px;
+    border-radius: 20px;
+    background: var(--text);
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .nav-btn:hover { background: var(--accent); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 24px;
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+  }
+
+  .hero-text h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 42px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+
+  .hero-text h1 .highlight {
+    color: var(--accent);
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero-text p {
+    font-size: 16px;
+    color: var(--text2);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+    font-weight: 300;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .hero-tag {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: 'DM Mono', monospace;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+  }
+
+  .hero-tag:hover { transform: translateY(-1px); }
+
+  .tag-orange { background: var(--tag-bg); color: var(--tag-text); border-color: #ffd4b8; }
+  .tag-blue { background: #e8eeff; color: #1a3bcc; border-color: #c5d0ff; }
+  .tag-green { background: var(--green-bg); color: #006644; border-color: #b3e8d4; }
+  .tag-purple { background: var(--purple-bg); color: #5b21b6; border-color: #d4c5ff; }
+  .tag-gray { background: var(--surface2); color: var(--text2); border-color: var(--border); }
+
+  .hero-visual {
+    flex-shrink: 0;
+    width: 200px;
+    height: 200px;
+    position: relative;
+  }
+
+  .hero-visual svg {
+    width: 100%;
+    height: 100%;
+    animation: rotate-slow 20s linear infinite;
+  }
+
+  @keyframes rotate-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+  }
+
+  .stats-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text2);
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .stat-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* MAIN LAYOUT */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+  }
+
+  /* FILTER TABS */
+  .filter-tabs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+  }
+
+  .filter-tab {
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .filter-tab:hover { color: var(--text); }
+  .filter-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .filter-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--surface2);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text2);
+    margin-left: 5px;
+  }
+
+  /* POST CARDS */
+  .posts-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .post-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: all 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+
+  .post-card:hover {
+    border-color: #d4d2cc;
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  .post-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+
+  .post-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .post-type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .badge-essay { background: var(--tag-bg); color: var(--tag-text); }
+  .badge-dialogue { background: #e8eeff; color: #1a3bcc; }
+  .badge-deep-dive { background: var(--purple-bg); color: #5b21b6; }
+  .badge-explainer { background: var(--green-bg); color: #006644; }
+
+  .post-date {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .post-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    transition: color 0.15s;
+  }
+
+  .post-card:hover .post-card-title { color: var(--accent); }
+
+  .post-card-excerpt {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.65;
+    margin-bottom: 16px;
+    font-weight: 300;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .post-tag {
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--surface2);
+    color: var(--text2);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .post-stats {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .post-stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* FEATURED CARD */
+  .post-card.featured {
+    background: linear-gradient(135deg, #fff8f5 0%, #ffffff 60%);
+    border-color: #ffd4b8;
+  }
+
+  .post-card.featured .post-card-title { font-size: 22px; }
+
+  .featured-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--accent);
+    color: white;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+
+  /* SIDEBAR */
+  .sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+  .sidebar-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .sidebar-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .sidebar-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text2);
+  }
+
+  .sidebar-link {
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .sidebar-link:hover { text-decoration: underline; }
+
+  /* TOPIC LIST */
+  .topic-list { padding: 8px; }
+
+  .topic-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .topic-item:hover { background: var(--surface2); }
+
+  .topic-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .topic-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .topic-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .topic-count {
+    font-size: 11px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+    background: var(--surface2);
+    padding: 2px 7px;
+    border-radius: 10px;
+  }
+
+  /* PARADOX WIDGET */
+  .paradox-widget {
+    padding: 16px;
+  }
+
+  .paradox-quote {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--text);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .paradox-quote .paradox-highlight {
+    color: var(--accent);
+  }
+
+  .paradox-author {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .paradox-nav {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .paradox-btn {
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--surface2);
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .paradox-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--tag-bg); }
+
+  /* NEWSLETTER */
+  .newsletter-box {
+    padding: 16px;
+    background: linear-gradient(135deg, #fff8f5, #fff);
+  }
+
+  .newsletter-box p {
+    font-size: 13px;
+    color: var(--text2);
+    margin-bottom: 12px;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .newsletter-input-row {
+    display: flex;
+    gap: 6px;
+  }
+
+  .newsletter-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: all 0.2s;
+    background: var(--surface);
+  }
+
+  .newsletter-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(255,107,43,0.1);
+  }
+
+  .newsletter-btn {
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--accent);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+  }
+
+  .newsletter-btn:hover { background: #e55a1f; transform: translateY(-1px); }
+
+  /* ABOUT WIDGET */
+  .about-box { padding: 16px; }
+
+  .about-box p {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+    font-weight: 300;
+    margin-bottom: 12px;
+  }
+
+  .about-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .about-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: white;
+    font-family: 'Syne', sans-serif;
+    flex-shrink: 0;
+  }
+
+  .about-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .about-role {
+    font-size: 11px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    padding: 32px 24px;
+    margin-top: 32px;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .footer-tagline {
+    font-size: 13px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 16px;
+  }
+
+  .footer-link {
+    font-size: 13px;
+    color: var(--text3);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-link:hover { color: var(--accent); }
+
+  /* ANIMATIONS */
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .post-card { animation: fadein 0.4s ease both; }
+  .post-card:nth-child(1) { animation-delay: 0s; }
+  .post-card:nth-child(2) { animation-delay: 0.06s; }
+  .post-card:nth-child(3) { animation-delay: 0.12s; }
+  .post-card:nth-child(4) { animation-delay: 0.18s; }
+  .post-card:nth-child(5) { animation-delay: 0.24s; }
+
+  /* DIVIDER */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0 20px;
+  }
+
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+  .divider-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .nav-search { display: none; }
+    .nav-links .nav-link { display: none; }
+    .hero-inner { flex-direction: column; gap: 24px; }
+    .hero-visual { width: 120px; height: 120px; align-self: center; }
+    .hero-text h1 { font-size: 28px; }
+    .main { grid-template-columns: 1fr; padding: 16px; }
+    .sidebar { display: none; }
+    .stats-inner { flex-wrap: wrap; gap: 16px; }
+    .hero { padding: 24px 16px; }
+    .post-card { padding: 16px; }
+    .post-card-title { font-size: 16px; }
+    .article-wrap { grid-template-columns: 1fr; padding: 16px; }
+    .article-header { padding: 24px 20px; }
+    .article-title { font-size: 24px; }
+    .article-body { padding: 24px 20px; }
+    .article-body p { font-size: 15px; }
+    .comment-section { padding: 24px 20px; }
+    .comment-input-row { grid-template-columns: 1fr; }
+    .pull-quote { padding: 16px 20px; margin: 24px 0; }
+    .pull-quote p { font-size: 16px !important; }
+    .the-question { padding: 20px; }
+    .question-text { font-size: 18px; }
+    .ladder-rungs { padding: 12px; }
+    .compare-box { grid-template-columns: 1fr; }
+    .three-box { grid-template-columns: 1fr; }
+    .examples-grid { grid-template-columns: 1fr; }
+    .proof-box { padding: 20px; }
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+    .nav-inner { padding: 0 16px; }
+    .filter-tabs { overflow-x: auto; }
+    .hero-tags { gap: 6px; }
+    .hero-tag { font-size: 11px; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="14" height="14" rx="2" stroke="#ff6b2b" stroke-width="2.5"/>
+          <circle cx="22" cy="22" r="8" stroke="#ff6b2b" stroke-width="2.5"/>
+          <rect x="10" y="10" width="12" height="12" rx="6" fill="#ff6b2b" opacity="0.15"/>
+        </svg>
+      </div>
+      <span class="logo-text">square<span>circle</span></span>
+    </a>
+
+    <div class="nav-search">
+      <svg class="search-icon" viewBox="0 0 16 16" fill="none">
+        <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M10 10l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <input type="text" placeholder="Search posts, topics, paradoxes...">
+    </div>
+
+    <div class="nav-links">
+      <a href="#" class="nav-link active">Posts</a>
+      <a href="#" class="nav-link">Topics</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="https://subscribe-forms.beehiiv.com/281e99f2-9472-4476-965c-6b11a6130c44" target="_blank" class="nav-btn">Subscribe</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h1>Where logic meets<br>its <span class="highlight">edge.</span></h1>
+      <p>A blog about AI, causality, paradoxes, and the fundamental limits of reasoning. Written at the boundary between what can be known and what can only be thought.</p>
+      <div class="hero-tags">
+        <span class="hero-tag tag-orange">causal reasoning</span>
+        <span class="hero-tag tag-blue">AI limits</span>
+        <span class="hero-tag tag-purple">paradoxes</span>
+        <span class="hero-tag tag-green">logic</span>
+        <span class="hero-tag tag-orange">counterfactuals</span>
+        <span class="hero-tag tag-blue">Gödel</span>
+        <span class="hero-tag tag-gray">philosophy of mind</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer square -->
+        <rect x="20" y="20" width="160" height="160" rx="4" stroke="#ff6b2b" stroke-width="3" stroke-dasharray="8 4" opacity="0.4"/>
+        <!-- Middle circle -->
+        <circle cx="100" cy="100" r="65" stroke="#ff6b2b" stroke-width="3" opacity="0.6"/>
+        <!-- Inner square -->
+        <rect x="54" y="54" width="92" height="92" rx="2" stroke="#ff6b2b" stroke-width="2.5" opacity="0.3"/>
+        <!-- Inner circle -->
+        <circle cx="100" cy="100" r="30" stroke="#ff6b2b" stroke-width="2" stroke-dasharray="5 3" opacity="0.8"/>
+        <!-- Center dot -->
+        <circle cx="100" cy="100" r="6" fill="#ff6b2b"/>
+        <!-- Corner accents -->
+        <circle cx="20" cy="20" r="4" fill="#ffb347" opacity="0.6"/>
+        <circle cx="180" cy="20" r="4" fill="#ffb347" opacity="0.6"/>
+        <circle cx="20" cy="180" r="4" fill="#ffb347" opacity="0.6"/>
+        <circle cx="180" cy="180" r="4" fill="#ffb347" opacity="0.6"/>
+        <!-- Crosshair lines -->
+        <line x1="100" y1="20" x2="100" y2="180" stroke="#ff6b2b" stroke-width="1" opacity="0.15"/>
+        <line x1="20" y1="100" x2="180" y2="100" stroke="#ff6b2b" stroke-width="1" opacity="0.15"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="stat-dot"></div>
+      <span class="stat-num">1</span>
+      <span>post published</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">7</span>
+      <span>topics covered</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">∞</span>
+      <span>paradoxes remaining</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">1</span>
+      <span>impossible shape</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="content">
+
+    <!-- FILTER TABS -->
+    <div class="filter-tabs">
+      <div class="filter-tab active">All Posts <span class="filter-count">5</span></div>
+      <div class="filter-tab">Essays</div>
+      <div class="filter-tab">Deep Dives</div>
+      <div class="filter-tab">Explainers</div>
+      <div class="filter-tab">Dialogues</div>
+    </div>
+
+    <!-- POSTS -->
+    <div class="posts-grid">
+
+      <!-- FEATURED POST -->
+      <a href="post1.html" class="post-card featured">
+        <div class="featured-label">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M5 0l1.2 3.7H10L6.9 6l1.2 3.7L5 7.5 1.9 9.7 3.1 6 0 3.7h3.8z"/></svg>
+          Featured
+        </div>
+        <div class="post-card-header">
+          <div class="post-card-meta">
+            <span class="post-type-badge badge-dialogue">Dialogue</span>
+            <span class="post-date">Feb 21, 2025</span>
+          </div>
+        </div>
+        <div class="post-card-title">Can AI Ever Truly Reason? A Conversation at the Edge of Logic</div>
+        <div class="post-card-excerpt">A wide-ranging conversation exploring whether current AI systems are capable of causal reasoning, what counterfactuals are and why they matter, and why the Liar's Paradox broke mathematics, computer science, and may set fundamental limits on artificial intelligence.</div>
+        <div class="post-card-footer">
+          <div class="post-tags">
+            <span class="post-tag">causal-reasoning</span>
+            <span class="post-tag">AI-limits</span>
+            <span class="post-tag">paradoxes</span>
+            <span class="post-tag">Gödel</span>
+          </div>
+          <div class="post-stats">
+            <span class="post-stat">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1a5 5 0 100 10A5 5 0 006 1zm0 9a4 4 0 110-8 4 4 0 010 8zm.5-5.5v3l2 1-.5.9-2.5-1.4V4.5h1z" fill="currentColor"/></svg>
+              12 min read
+            </span>
+            <span class="post-stat">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C3.2 1 1 3.2 1 6s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 9a4 4 0 110-8 4 4 0 010 8z" fill="currentColor" opacity="0.3"/><path d="M4 6c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2z" fill="currentColor"/></svg>
+              247 views
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <div class="section-divider">
+        <div class="divider-line"></div>
+        <span class="divider-label">More from SquareCircle</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- POST 2 -->
+      <a href="post2.html" class="post-card">
+        <div class="post-card-header">
+          <div class="post-card-meta">
+            <span class="post-type-badge badge-deep-dive">Deep Dive</span>
+            <span class="post-date">Coming soon</span>
+          </div>
+        </div>
+        <div class="post-card-title">Gödel's Incompleteness: The Theorem That Broke Everything</div>
+        <div class="post-card-excerpt">In 1931, a 25-year-old mathematician proved that every sufficiently complex logical system must contain truths it cannot prove. Here's why that matters for AI, consciousness, and the nature of knowledge itself.</div>
+        <div class="post-card-footer">
+          <div class="post-tags">
+            <span class="post-tag">Gödel</span>
+            <span class="post-tag">mathematics</span>
+            <span class="post-tag">incompleteness</span>
+          </div>
+          <div class="post-stats">
+            <span class="post-stat">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1a5 5 0 100 10A5 5 0 006 1zm0 9a4 4 0 110-8 4 4 0 010 8zm.5-5.5v3l2 1-.5.9-2.5-1.4V4.5h1z" fill="currentColor"/></svg>
+              8 min read
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- POST 3 -->
+      <a href="post3.html" class="post-card">
+        <div class="post-card-header">
+          <div class="post-card-meta">
+            <span class="post-type-badge badge-essay">Essay</span>
+            <span class="post-date">Coming soon</span>
+          </div>
+        </div>
+        <div class="post-card-title">The Brilliant Parrot Problem: Scaling vs. Understanding in AI</div>
+        <div class="post-card-excerpt">More parameters, more data, more compute — but are we getting closer to genuine understanding, or just a more convincing performance? The case for and against the scaling hypothesis.</div>
+        <div class="post-card-footer">
+          <div class="post-tags">
+            <span class="post-tag">scaling</span>
+            <span class="post-tag">LLMs</span>
+            <span class="post-tag">understanding</span>
+          </div>
+          <div class="post-stats">
+            <span class="post-stat">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1a5 5 0 100 10A5 5 0 006 1zm0 9a4 4 0 110-8 4 4 0 010 8zm.5-5.5v3l2 1-.5.9-2.5-1.4V4.5h1z" fill="currentColor"/></svg>
+              6 min read
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- POST 4 -->
+      <a href="post4.html" class="post-card">
+        <div class="post-card-header">
+          <div class="post-card-meta">
+            <span class="post-type-badge badge-explainer">Explainer</span>
+            <span class="post-date">Coming soon</span>
+          </div>
+        </div>
+        <div class="post-card-title">What Are Counterfactuals — And Why Can't AI Think in Them?</div>
+        <div class="post-card-excerpt">The ability to reason about what didn't happen is at the core of human intelligence. Science, law, medicine, and morality all depend on it. Here's why it's so hard to build into machines.</div>
+        <div class="post-card-footer">
+          <div class="post-tags">
+            <span class="post-tag">counterfactuals</span>
+            <span class="post-tag">causal-reasoning</span>
+            <span class="post-tag">Judea Pearl</span>
+          </div>
+          <div class="post-stats">
+            <span class="post-stat">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1a5 5 0 100 10A5 5 0 006 1zm0 9a4 4 0 110-8 4 4 0 010 8zm.5-5.5v3l2 1-.5.9-2.5-1.4V4.5h1z" fill="currentColor"/></svg>
+              5 min read
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- POST 5 -->
+      <a href="post5.html" class="post-card">
+        <div class="post-card-header">
+          <div class="post-card-meta">
+            <span class="post-type-badge badge-essay">Essay</span>
+            <span class="post-date">Coming soon</span>
+          </div>
+        </div>
+        <div class="post-card-title">I Could Draw a Square Circle — But I Won't</div>
+        <div class="post-card-excerpt">On the difference between logical impossibility, physical representation, and willful refusal. Why the most interesting answer to an impossible question is sometimes "I could, but I won't."</div>
+        <div class="post-card-footer">
+          <div class="post-tags">
+            <span class="post-tag">logic</span>
+            <span class="post-tag">paradox</span>
+            <span class="post-tag">philosophy</span>
+          </div>
+          <div class="post-stats">
+            <span class="post-stat">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1a5 5 0 100 10A5 5 0 006 1zm0 9a4 4 0 110-8 4 4 0 010 8zm.5-5.5v3l2 1-.5.9-2.5-1.4V4.5h1z" fill="currentColor"/></svg>
+              4 min read
+            </span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- ABOUT -->
+    <div class="sidebar-card">
+      <div class="sidebar-header">
+        <span class="sidebar-title">About</span>
+      </div>
+      <div class="about-box">
+        <p>SquareCircle explores the edges of logic, the limits of AI, and the paradoxes that have shaped mathematics and philosophy. Written for curious minds who aren't afraid of a contradiction.</p>
+        <div class="about-meta">
+          <div class="about-avatar">SC</div>
+          <div>
+            <div class="about-name">SquareCircle</div>
+            <div class="about-role">squarecircle.blog</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARADOX OF THE DAY -->
+    <div class="sidebar-card">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Paradox of the Day</span>
+        <a href="#" class="sidebar-link">archive →</a>
+      </div>
+      <div class="paradox-widget">
+        <div class="paradox-quote">"<span class="paradox-highlight">This statement</span> is false."</div>
+        <div class="paradox-author">— Epimenides, ~600 BC · The Liar's Paradox</div>
+        <div class="paradox-nav">
+          <button class="paradox-btn">← prev</button>
+          <button class="paradox-btn">next →</button>
+          <button class="paradox-btn">explain it</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOPICS -->
+    <div class="sidebar-card">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Topics</span>
+        <a href="#" class="sidebar-link">all →</a>
+      </div>
+      <div class="topic-list">
+        <div class="topic-item">
+          <div class="topic-left">
+            <div class="topic-icon" style="background:#fff0e8;">🔗</div>
+            <span class="topic-name">Causal Reasoning</span>
+          </div>
+          <span class="topic-count">4</span>
+        </div>
+        <div class="topic-item">
+          <div class="topic-left">
+            <div class="topic-icon" style="background:#e8eeff;">∞</div>
+            <span class="topic-name">Paradoxes</span>
+          </div>
+          <span class="topic-count">6</span>
+        </div>
+        <div class="topic-item">
+          <div class="topic-left">
+            <div class="topic-icon" style="background:#f3eeff;">🧠</div>
+            <span class="topic-name">AI Limits</span>
+          </div>
+          <span class="topic-count">5</span>
+        </div>
+        <div class="topic-item">
+          <div class="topic-left">
+            <div class="topic-icon" style="background:#e6f7f1;">📐</div>
+            <span class="topic-name">Logic & Math</span>
+          </div>
+          <span class="topic-count">3</span>
+        </div>
+        <div class="topic-item">
+          <div class="topic-left">
+            <div class="topic-icon" style="background:#fff0e8;">💭</div>
+            <span class="topic-name">Philosophy of Mind</span>
+          </div>
+          <span class="topic-count">2</span>
+        </div>
+        <div class="topic-item">
+          <div class="topic-left">
+            <div class="topic-icon" style="background:#e8eeff;">⏳</div>
+            <span class="topic-name">Counterfactuals</span>
+          </div>
+          <span class="topic-count">3</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEWSLETTER -->
+    <div class="sidebar-card">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Stay at the Edge</span>
+      </div>
+      <div style="padding:16px;">
+        <p style="font-size:13px;color:#6b6860;margin-bottom:12px;line-height:1.5;font-weight:300;">New posts on AI, logic, and paradoxes — when they're ready.</p>
+        <div style="display:flex;gap:6px;">
+          <input type="email" id="sub-email" placeholder="your@email.com" style="flex:1;padding:8px 12px;border:1px solid #e4e2dd;border-radius:8px;font-size:13px;outline:none;">
+          <button onclick="doSubscribe()" style="padding:8px 14px;border-radius:8px;background:#ff6b2b;color:white;font-size:13px;font-weight:600;border:none;cursor:pointer;">Go</button>
+        </div>
+        <p id="sub-msg" style="display:none;margin-top:8px;font-size:12px;color:#006644;font-family:monospace;">✓ Opening signup — check your inbox!</p>
+      </div>
+    </div>
+    <script>
+    function doSubscribe() {
+      var email = document.getElementById('sub-email').value;
+      if (!email) return;
+      window.open('https://subscribe-forms.beehiiv.com/281e99f2-9472-4476-965c-6b11a6130c44?email=' + encodeURIComponent(email), '_blank');
+      document.getElementById('sub-msg').style.display = 'block';
+      document.getElementById('sub-email').value = '';
+    }
+    </script>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none">
+            <rect x="2" y="2" width="14" height="14" rx="2" stroke="#ff6b2b" stroke-width="2.5"/>
+            <circle cx="22" cy="22" r="8" stroke="#ff6b2b" stroke-width="2.5"/>
+          </svg>
+        </div>
+        <span class="logo-text">square<span>circle</span></span>
+      </a>
+      <span class="footer-tagline">// where logic meets its edge</span>
+    </div>
+    <div class="footer-links">
+      <a href="#" class="footer-link">Twitter</a>
+      <a href="#" class="footer-link">RSS</a>
+      <a href="about.html" class="footer-link">About</a>
+      <a href="#" class="footer-link">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
+</body>
+</html>

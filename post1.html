@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to SquareCircle — A Question to Start</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f7f4;
+    --surface: #ffffff;
+    --surface2: #f1f0ed;
+    --border: #e4e2dd;
+    --text: #1a1917;
+    --text2: #6b6860;
+    --text3: #9c9a94;
+    --accent: #ff6b2b;
+    --accent2: #ffb347;
+    --tag-bg: #fff0e8;
+    --tag-text: #c44a00;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-icon { width: 32px; height: 32px; }
+  .logo-icon svg { width: 100%; height: 100%; }
+
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .logo-text span { color: var(--accent); }
+
+  .nav-links { display: flex; align-items: center; gap: 4px; }
+
+  .nav-link {
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    transition: all 0.15s;
+  }
+
+  .nav-link:hover { background: var(--surface2); color: var(--text); }
+
+  .nav-btn {
+    padding: 7px 16px;
+    border-radius: 20px;
+    background: var(--text);
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+
+  .nav-btn:hover { background: var(--accent); }
+
+  /* ARTICLE LAYOUT */
+  .article-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 48px;
+    align-items: start;
+  }
+
+  /* ARTICLE */
+  article {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .article-header {
+    padding: 40px 48px 32px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, #fff8f5 0%, #ffffff 70%);
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .post-type-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+  }
+
+  .article-date {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .read-time {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .article-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+
+  .article-title .highlight { color: var(--accent); }
+
+  .article-subtitle {
+    font-size: 18px;
+    color: var(--text2);
+    font-weight: 300;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* ARTICLE BODY */
+  .article-body {
+    padding: 40px 48px;
+  }
+
+  .article-body p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 24px;
+    font-weight: 300;
+  }
+
+  .article-body p:last-child { margin-bottom: 0; }
+
+  .article-body h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 40px 0 16px;
+    color: var(--text);
+  }
+
+  .article-body h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 32px 0 12px;
+    color: var(--text);
+  }
+
+  .article-body strong {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .article-body em {
+    font-style: italic;
+    color: var(--text2);
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    margin: 36px 0;
+    padding: 24px 32px;
+    border-left: 4px solid var(--accent);
+    background: var(--tag-bg);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  .pull-quote p {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+    color: var(--text) !important;
+    margin-bottom: 8px !important;
+    font-style: normal !important;
+  }
+
+  .pull-quote cite {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+    font-style: normal;
+  }
+
+  /* LADDER VISUAL */
+  .ladder-visual {
+    margin: 36px 0;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .ladder-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text3);
+  }
+
+  .ladder-rungs {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .rung {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .rung:hover {
+    border-color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .rung-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    flex-shrink: 0;
+    color: white;
+  }
+
+  .rung-1 .rung-num { background: #9c9a94; }
+  .rung-2 .rung-num { background: #ff6b2b; }
+  .rung-3 .rung-num { background: #1a1917; }
+
+  .rung-content { flex: 1; }
+
+  .rung-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .rung-example {
+    font-size: 13px;
+    color: var(--text2);
+    font-style: italic;
+    margin-bottom: 4px;
+  }
+
+  .rung-ai {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .ai-yes { background: #e6f7f1; color: #006644; }
+  .ai-partial { background: #fff0e8; color: #c44a00; }
+  .ai-no { background: #fee; color: #cc0000; }
+
+  /* THE QUESTION */
+  .the-question {
+    margin: 40px 0;
+    padding: 32px;
+    background: var(--text);
+    border-radius: var(--radius);
+    color: white;
+  }
+
+  .question-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .question-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    color: white !important;
+  }
+
+  .question-subtext {
+    font-size: 15px !important;
+    color: #a09e98 !important;
+    font-weight: 300 !important;
+    line-height: 1.7 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* COMMENT SECTION */
+  .comment-section {
+    border-top: 1px solid var(--border);
+    padding: 40px 48px;
+  }
+
+  .comment-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+
+  .comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .comment-input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .comment-input {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    background: var(--surface);
+    transition: all 0.2s;
+    color: var(--text);
+  }
+
+  .comment-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(255,107,43,0.1);
+  }
+
+  .comment-input::placeholder { color: var(--text3); }
+
+  textarea.comment-input {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .comment-submit {
+    padding: 10px 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: all 0.15s;
+  }
+
+  .comment-submit:hover { background: #e55a1f; transform: translateY(-1px); }
+
+  /* EXISTING COMMENTS */
+  .comments-list { display: flex; flex-direction: column; gap: 20px; }
+
+  .comment {
+    padding: 20px;
+    background: var(--surface2);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+  }
+
+  .comment-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .comment-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .comment-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    font-family: 'Syne', sans-serif;
+    flex-shrink: 0;
+  }
+
+  .comment-name {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .comment-date {
+    font-size: 11px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .comment-body {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.65;
+  }
+
+  .comment-reply {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--accent);
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .comment-reply:hover { text-decoration: underline; }
+
+  /* SIDEBAR */
+  .sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 80px; }
+
+  .sidebar-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .sidebar-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text2);
+  }
+
+  .toc-list {
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .toc-item {
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    display: block;
+  }
+
+  .toc-item:hover { background: var(--surface2); color: var(--accent); }
+  .toc-item.active { color: var(--accent); font-weight: 500; }
+
+  .share-box { padding: 16px; }
+  .share-box p { font-size: 13px; color: var(--text2); margin-bottom: 12px; font-weight: 300; }
+
+  .share-buttons { display: flex; flex-direction: column; gap: 8px; }
+
+  .share-btn {
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+
+  .share-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--tag-bg); }
+
+  .newsletter-box { padding: 16px; background: linear-gradient(135deg, #fff8f5, #fff); }
+  .newsletter-box p { font-size: 13px; color: var(--text2); margin-bottom: 12px; line-height: 1.5; font-weight: 300; }
+
+  .newsletter-input-row { display: flex; gap: 6px; }
+
+  .newsletter-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: all 0.2s;
+  }
+
+  .newsletter-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,107,43,0.1); }
+
+  .newsletter-btn {
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--accent);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .newsletter-btn:hover { background: #e55a1f; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    padding: 32px 24px;
+    margin-top: 32px;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-tagline { font-size: 13px; color: var(--text3); font-family: 'DM Mono', monospace; }
+
+  .footer-links { display: flex; gap: 16px; }
+  .footer-link { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.15s; }
+  .footer-link:hover { color: var(--accent); }
+
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  article { animation: fadein 0.5s ease both; }
+
+  @media (max-width: 768px) {
+    .nav-search { display: none; }
+    .nav-links .nav-link { display: none; }
+    .hero-inner { flex-direction: column; gap: 24px; }
+    .hero-visual { width: 120px; height: 120px; align-self: center; }
+    .hero-text h1 { font-size: 28px; }
+    .main { grid-template-columns: 1fr; padding: 16px; }
+    .sidebar { display: none; }
+    .stats-inner { flex-wrap: wrap; gap: 16px; }
+    .hero { padding: 24px 16px; }
+    .post-card { padding: 16px; }
+    .post-card-title { font-size: 16px; }
+    .article-wrap { grid-template-columns: 1fr; padding: 16px; }
+    .article-header { padding: 24px 20px; }
+    .article-title { font-size: 24px; }
+    .article-body { padding: 24px 20px; }
+    .article-body p { font-size: 15px; }
+    .comment-section { padding: 24px 20px; }
+    .comment-input-row { grid-template-columns: 1fr; }
+    .pull-quote { padding: 16px 20px; margin: 24px 0; }
+    .pull-quote p { font-size: 16px !important; }
+    .the-question { padding: 20px; }
+    .question-text { font-size: 18px; }
+    .ladder-rungs { padding: 12px; }
+    .compare-box { grid-template-columns: 1fr; }
+    .three-box { grid-template-columns: 1fr; }
+    .examples-grid { grid-template-columns: 1fr; }
+    .proof-box { padding: 20px; }
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+    .nav-inner { padding: 0 16px; }
+    .filter-tabs { overflow-x: auto; }
+    .hero-tags { gap: 6px; }
+    .hero-tag { font-size: 11px; }
+  }
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 32 32" fill="none">
+          <rect x="2" y="2" width="14" height="14" rx="2" stroke="#ff6b2b" stroke-width="2.5"/>
+          <circle cx="22" cy="22" r="8" stroke="#ff6b2b" stroke-width="2.5"/>
+          <rect x="10" y="10" width="12" height="12" rx="6" fill="#ff6b2b" opacity="0.15"/>
+        </svg>
+      </div>
+      <span class="logo-text">square<span>circle</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">← All Posts</a>
+      <a href="https://subscribe-forms.beehiiv.com/281e99f2-9472-4476-965c-6b11a6130c44" target="_blank" class="nav-btn">Subscribe</a>
+    </div>
+  </div>
+</nav>
+
+<div class="article-wrap">
+  <article>
+    <!-- HEADER -->
+    <div class="article-header">
+      <div class="article-meta">
+        <span class="post-type-badge">Welcome</span>
+        <span class="article-date">Feb 21, 2026</span>
+        <span class="read-time">5 min read</span>
+      </div>
+      <h1 class="article-title">Welcome to SquareCircle.<br>Now answer <span class="highlight">this.</span></h1>
+      <p class="article-subtitle">A space for thought that doesn't resolve neatly. Starting with a question that gets to the heart of what AI can and cannot do.</p>
+    </div>
+
+    <!-- BODY -->
+    <div class="article-body">
+
+      <p>Every blog has a first post. Most of them are throat-clearing — a promise of what's to come, a bit of biography, a vision statement. We're going to skip all of that and start with a question instead. Because that's what this place is for.</p>
+
+      <p>SquareCircle exists at the boundary of logic. It's named after an impossible thing — something that cannot exist by definition, but that you could probably sketch a version of if you felt like it. That tension — between what is formally impossible and what you can still think, represent, or will into being — is exactly the kind of territory we plan to explore here.</p>
+
+      <p>The first territory is one of the most important questions in AI right now. Not "will AI take my job" or "is AGI coming." Something deeper. Something that cuts to the foundation of what intelligence even is.</p>
+
+      <h2>The Ladder of Causation</h2>
+
+      <p>The statistician and philosopher <strong>Judea Pearl</strong> proposed that all reasoning about the world can be organized into three levels — a hierarchy he calls the Ladder of Causation. Each rung represents a fundamentally different kind of thinking, and each is more powerful than the one below it.</p>
+
+      <div class="ladder-visual">
+        <div class="ladder-header">The Ladder of Causation — Judea Pearl</div>
+        <div class="ladder-rungs">
+          <div class="rung rung-1">
+            <div class="rung-num">1</div>
+            <div class="rung-content">
+              <div class="rung-label">Seeing — Association</div>
+              <div class="rung-example">"When it rains, the ground is wet." Observing patterns and correlations.</div>
+              <span class="rung-ai ai-yes">✓ AI does this extremely well</span>
+            </div>
+          </div>
+          <div class="rung rung-2">
+            <div class="rung-num">2</div>
+            <div class="rung-content">
+              <div class="rung-label">Doing — Intervention</div>
+              <div class="rung-example">"If I turn on the sprinkler, will the ground get wet?" Understanding what happens when you actively change something.</div>
+              <span class="rung-ai ai-partial">~ AI struggles here</span>
+            </div>
+          </div>
+          <div class="rung rung-3">
+            <div class="rung-num">3</div>
+            <div class="rung-content">
+              <div class="rung-label">Imagining — Counterfactual</div>
+              <div class="rung-example">"If it hadn't rained yesterday, would the ground still be wet?" Reasoning about what didn't happen.</div>
+              <span class="rung-ai ai-no">✗ AI largely cannot do this reliably</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p>Current AI systems — including the most advanced large language models — are extraordinarily good at Rung 1. They are pattern-matching engines of unprecedented power. They have ingested more human knowledge than any individual could read in a thousand lifetimes, and they can find correlations, surface connections, and generate fluent responses at a scale that genuinely looks like understanding.</p>
+
+      <p>But looking like understanding and <em>being</em> understanding may be two very different things.</p>
+
+      <div class="pull-quote">
+        <p>"Correlation tells you the world as it is. Causation lets you reason about the world as it could be."</p>
+        <cite>— A useful distinction worth sitting with</cite>
+      </div>
+
+      <p>The gap between Rung 1 and Rung 3 is not a gap that more data or more compute obviously closes. It may require something architecturally different — a system that doesn't just map patterns but builds genuine models of how the world works, reasons about interventions, and imagines alternate histories.</p>
+
+      <p>Whether that's achievable, how close we are, and what it would even mean for a machine to truly climb all three rungs — that's what we're here to explore.</p>
+
+      <h2>But first — a question for you</h2>
+
+      <p>Before we go further, we want to hear from you. Not because we don't have opinions — we have plenty — but because the whole point of this place is dialogue. The ladder of causation is a framework. Frameworks are only useful when you stress-test them against real thinking.</p>
+
+      <div class="the-question">
+        <div class="question-label">// Opening Question</div>
+        <p class="question-text">If an AI can perfectly predict what you will do next — does it understand you?</p>
+        <p class="question-subtext">Think carefully before you answer. Perfect prediction requires only Rung 1 — pattern recognition at scale. No model of your motivations, your history, your fears, or your reasons is required. A surveillance system with enough data might predict your behavior better than your closest friend. Does that make it more intelligent? More understanding? Or is it something else entirely — and if so, what do we call it?</p>
+      </div>
+
+      <p>Leave your answer in the comments below. There's no right answer — but there are more and less interesting ones. We're looking for the kind of thinking that doesn't resolve neatly. The kind that sits with you after you close the tab.</p>
+
+      <p>Welcome to SquareCircle. Where logic meets its edge.</p>
+
+      <p style="margin-top: 40px; font-family: 'DM Mono', monospace; font-size: 14px; color: var(--text3);">— <strong>David L. Goodis</strong></p>
+
+    </div>
+
+    <!-- COMMENTS -->
+    <div class="comment-section">
+      <h2>Join the Dialogue</h2>
+      <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://squarecircle.blog/post1';
+        this.page.identifier = 'welcome-now-answer-this';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://squarecircle-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sidebar-card">
+      <div class="sidebar-header"><span class="sidebar-title">In this post</span></div>
+      <div class="toc-list">
+        <a href="#" class="toc-item active">The Ladder of Causation</a>
+        <a href="#" class="toc-item">Rung 1: Seeing</a>
+        <a href="#" class="toc-item">Rung 2: Doing</a>
+        <a href="#" class="toc-item">Rung 3: Imagining</a>
+        <a href="#" class="toc-item">The Opening Question</a>
+        <a href="#" class="toc-item">Join the Dialogue</a>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-header"><span class="sidebar-title">Share this post</span></div>
+      <div class="share-box">
+        <p>If this question made you think, send it to someone who'll argue with you about it.</p>
+        <div class="share-buttons">
+          <a href="#" class="share-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Share on X
+          </a>
+          <a href="#" class="share-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            Share on LinkedIn
+          </a>
+          <a href="#" class="share-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            Copy link
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card" id="subscribe">
+      <div class="sidebar-header"><span class="sidebar-title">Stay at the Edge</span></div>
+      <div style="padding:16px;">
+        <p style="font-size:13px;color:#6b6860;margin-bottom:12px;line-height:1.5;font-weight:300;">New posts on AI, logic, and paradoxes — when they're ready.</p>
+        <div style="display:flex;gap:6px;">
+          <input type="email" id="sub-email" placeholder="your@email.com" style="flex:1;padding:8px 12px;border:1px solid #e4e2dd;border-radius:8px;font-size:13px;outline:none;">
+          <button onclick="doSubscribe()" style="padding:8px 14px;border-radius:8px;background:#ff6b2b;color:white;font-size:13px;font-weight:600;border:none;cursor:pointer;">Go</button>
+        </div>
+        <p id="sub-msg" style="display:none;margin-top:8px;font-size:12px;color:#006644;font-family:monospace;">✓ Opening signup — check your inbox!</p>
+      </div>
+    </div>
+    <script>
+    function doSubscribe() {
+      var email = document.getElementById('sub-email').value;
+      if (!email) return;
+      window.open('https://subscribe-forms.beehiiv.com/281e99f2-9472-4476-965c-6b11a6130c44?email=' + encodeURIComponent(email), '_blank');
+      document.getElementById('sub-msg').style.display = 'block';
+      document.getElementById('sub-email').value = '';
+    }
+    </script>
+
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div style="display:flex;align-items:center;gap:16px;">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none">
+            <rect x="2" y="2" width="14" height="14" rx="2" stroke="#ff6b2b" stroke-width="2.5"/>
+            <circle cx="22" cy="22" r="8" stroke="#ff6b2b" stroke-width="2.5"/>
+          </svg>
+        </div>
+        <span class="logo-text">square<span>circle</span></span>
+      </a>
+      <span class="footer-tagline">// where logic meets its edge</span>
+    </div>
+    <div class="footer-links">
+      <a href="#" class="footer-link">Twitter</a>
+      <a href="#" class="footer-link">RSS</a>
+      <a href="about.html" class="footer-link">About</a>
+    </div>
+  </div>
+</footer>
+
+<script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
+</body>
+</html>

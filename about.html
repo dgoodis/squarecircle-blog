@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — SquareCircle</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f7f4;
+    --surface: #ffffff;
+    --surface2: #f1f0ed;
+    --border: #e4e2dd;
+    --text: #1a1917;
+    --text2: #6b6860;
+    --text3: #9c9a94;
+    --accent: #ff6b2b;
+    --tag-bg: #fff0e8;
+    --tag-text: #c44a00;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon { width: 32px; height: 32px; }
+  .logo-icon svg { width: 100%; height: 100%; }
+  .logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; color: var(--text); letter-spacing: -0.02em; }
+  .logo-text span { color: var(--accent); }
+
+  .nav-links { display: flex; align-items: center; gap: 4px; }
+  .nav-link { padding: 6px 12px; border-radius: var(--radius-sm); text-decoration: none; font-size: 13px; font-weight: 500; color: var(--text2); transition: all 0.15s; }
+  .nav-link:hover { background: var(--surface2); color: var(--text); }
+  .nav-btn { padding: 7px 16px; border-radius: 20px; background: var(--text); color: white; font-size: 13px; font-weight: 500; text-decoration: none; transition: all 0.15s; }
+  .nav-btn:hover { background: var(--accent); }
+
+  /* HERO */
+  .about-hero {
+    background: var(--text);
+    padding: 80px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,107,43,0.15);
+    animation: rotate 30s linear infinite;
+  }
+
+  .about-hero::after {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: 5%;
+    width: 300px;
+    height: 300px;
+    border: 1px solid rgba(255,107,43,0.1);
+    animation: rotate 20s linear infinite reverse;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .hero-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: white;
+    margin-bottom: 24px;
+  }
+
+  .hero-title .accent { color: var(--accent); }
+
+  .hero-subtitle {
+    font-size: 20px;
+    color: #a09e98;
+    font-weight: 300;
+    line-height: 1.65;
+    max-width: 600px;
+  }
+
+  /* MAIN CONTENT */
+  .about-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 64px 24px;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 64px;
+    animation: fadein 0.6s ease both;
+  }
+
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+  .section:nth-child(4) { animation-delay: 0.3s; }
+  .section:nth-child(5) { animation-delay: 0.4s; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .section p {
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--text);
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .section p:last-child { margin-bottom: 0; }
+  .section p strong { font-weight: 600; color: var(--text); }
+  .section p em { font-style: italic; color: var(--text2); }
+
+  /* TIMELINE */
+  .timeline {
+    margin: 32px 0;
+    position: relative;
+    padding-left: 32px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--border));
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 28px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+
+  .timeline-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .timeline-text {
+    font-size: 15px;
+    color: var(--text2);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .timeline-text strong { color: var(--text); font-weight: 600; }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    margin: 40px 0;
+    padding: 32px 40px;
+    background: var(--text);
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pull-quote::before {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    left: 24px;
+    font-family: 'Syne', sans-serif;
+    font-size: 140px;
+    font-weight: 800;
+    color: var(--accent);
+    opacity: 0.15;
+    line-height: 1;
+  }
+
+  .pull-quote p {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+    color: white !important;
+    margin-bottom: 16px !important;
+    position: relative;
+    z-index: 1;
+  }
+
+  .pull-quote cite {
+    font-size: 12px;
+    color: #6b6860;
+    font-family: 'DM Mono', monospace;
+    font-style: normal;
+  }
+
+  /* LADDER CALLOUT */
+  .ladder-callout {
+    margin: 40px 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .ladder-callout-header {
+    padding: 16px 24px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .ladder-callout-header span {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text3);
+  }
+
+  .rung-highlight {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--text);
+    color: white;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .rung-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .ladder-callout-body {
+    padding: 24px;
+    background: var(--surface);
+  }
+
+  .ladder-callout-body p {
+    font-size: 16px !important;
+    line-height: 1.75 !important;
+    color: var(--text2) !important;
+    margin-bottom: 16px !important;
+    font-weight: 300 !important;
+  }
+
+  .ladder-callout-body p:last-child { margin-bottom: 0 !important; }
+  .ladder-callout-body strong { color: var(--text) !important; font-weight: 600 !important; }
+
+  /* FOUNDER BIO */
+  .founder-card {
+    margin: 40px 0;
+    padding: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  .founder-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #1a1917);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .founder-info h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .founder-role {
+    font-size: 13px;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 12px;
+  }
+
+  .founder-info p {
+    font-size: 14px !important;
+    color: var(--text2) !important;
+    line-height: 1.65 !important;
+    font-weight: 300 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 64px 0;
+  }
+
+  /* CTA */
+  .cta-box {
+    padding: 40px;
+    background: linear-gradient(135deg, #1a1917 0%, #2d2b28 100%);
+    border-radius: var(--radius);
+    text-align: center;
+  }
+
+  .cta-box h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .cta-box p {
+    font-size: 16px;
+    color: #a09e98;
+    margin-bottom: 24px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  .cta-btn-primary {
+    padding: 12px 28px;
+    background: var(--accent);
+    color: white;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .cta-btn-primary:hover { background: #e55a1f; transform: translateY(-1px); }
+
+  .cta-btn-secondary {
+    padding: 12px 28px;
+    border: 1px solid #3d3b38;
+    color: #a09e98;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .cta-btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    padding: 32px 24px;
+    margin-top: 32px;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-tagline { font-size: 13px; color: var(--text3); font-family: 'DM Mono', monospace; }
+  .footer-links { display: flex; gap: 16px; }
+  .footer-link { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.15s; }
+  .footer-link:hover { color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .hero-title { font-size: 32px; }
+    .about-hero { padding: 48px 20px; }
+    .about-wrap { padding: 40px 20px; }
+    .pull-quote { padding: 24px; }
+    .pull-quote p { font-size: 18px !important; }
+    .founder-card { flex-direction: column; }
+    .cta-box { padding: 28px 20px; }
+    .nav-links .nav-link { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 32 32" fill="none">
+          <rect x="2" y="2" width="14" height="14" rx="2" stroke="#ff6b2b" stroke-width="2.5"/>
+          <circle cx="22" cy="22" r="8" stroke="#ff6b2b" stroke-width="2.5"/>
+          <rect x="10" y="10" width="12" height="12" rx="6" fill="#ff6b2b" opacity="0.15"/>
+        </svg>
+      </div>
+      <span class="logo-text">square<span>circle</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">← All Posts</a>
+      <a href="https://subscribe-forms.beehiiv.com/281e99f2-9472-4476-965c-6b11a6130c44" target="_blank" class="nav-btn">Subscribe</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="about-hero">
+  <div class="hero-inner">
+    <div class="hero-label">// About SquareCircle</div>
+    <h1 class="hero-title">The gap between<br>knowing and <span class="accent">understanding</span><br>is everything.</h1>
+    <p class="hero-subtitle">A blog about AI, causality, and the extraordinary future waiting on the other side of a single unsolved problem.</p>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="about-wrap">
+
+  <!-- ORIGIN -->
+  <div class="section">
+    <div class="section-label">// The Origin</div>
+    <h2>This started with a booking engine. It ended up somewhere else entirely.</h2>
+
+    <p>In 1999, I founded <strong>Revelex Corporation</strong> in Boca Raton, Florida — a technology company built around one deceptively simple idea: that software could fundamentally transform the way people discover, plan, and book travel.</p>
+
+    <p>Twenty-five years later, it has. The travel industry has been reshaped by technology more completely than almost any other sector. What used to take a travel agent three phone calls and two days now takes a traveler thirty seconds on a phone. Inventory that was locked in proprietary systems is now global and instantaneous. The friction that defined travel for a century has largely been eliminated.</p>
+
+    <p>And yet something is still missing. Something that only became clear to me when I started thinking seriously about what AI can and cannot do.</p>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section">
+    <div class="section-label">// 25 Years of Watching Technology Transform Travel</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">1999</div>
+        <div class="timeline-text"><strong>Revelex Corporation founded.</strong> The vision: use technology to give travelers and agents access to the world's inventory in one place.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">Early 2000s</div>
+        <div class="timeline-text"><strong>The distribution revolution.</strong> GDS systems open up. Online booking changes everything. The industry scrambles to adapt.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2010s</div>
+        <div class="timeline-text"><strong>The mobile and data era.</strong> Every traveler carries a supercomputer. Personalization becomes the new frontier. Recommendation engines multiply.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2020s</div>
+        <div class="timeline-text"><strong>The AI inflection point.</strong> Large language models arrive. Everyone asks: what does this change? The honest answer: everything — and nothing, yet.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">Now</div>
+        <div class="timeline-text"><strong>The question that won't go away.</strong> AI can predict where you might want to go. But can it understand <em>why</em> you want to go there — and reason about what that means?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE REAL PROBLEM -->
+  <div class="section">
+    <div class="section-label">// The Real Problem</div>
+    <h2>AI knows where you've been. It doesn't know who you're becoming.</h2>
+
+    <p>Here's what the best travel technology in the world can do today: it can look at everything you've booked, everywhere you've searched, every preference you've expressed — and predict, with remarkable accuracy, what you'll book next.</p>
+
+    <p>That's powerful. That's genuinely useful. But it's Rung 1 of Judea Pearl's Ladder of Causation — <em>association</em>. Pattern recognition at scale. The system sees that people who did X tend to do Y, and surfaces Y for you.</p>
+
+    <p>What it cannot do is reason about what you've never done. It cannot ask: <em>"What kind of traveler is this person trying to become?"</em> It cannot think: <em>"She's been booking business-class to financial centers for a decade — but something in her recent searches suggests she's considering a different kind of life. What would that trip look like?"</em></p>
+
+    <p>That requires Rung 3. Counterfactual reasoning. The ability to imagine a world that doesn't exist yet and reason backward from it.</p>
+  </div>
+
+  <!-- LADDER CALLOUT -->
+  <div class="ladder-callout">
+    <div class="ladder-callout-header">
+      <span>Pearl's Ladder — Where AI Travel Technology Currently Lives</span>
+      <div class="rung-highlight"><div class="rung-dot"></div> Rung 3: Counterfactual</div>
+    </div>
+    <div class="ladder-callout-body">
+      <p><strong>Rung 1 — Seeing (where we are):</strong> "Travelers who book this hotel also book these tours." Correlation at scale. Extraordinarily powerful. The entire recommendation economy runs on this rung.</p>
+      <p><strong>Rung 2 — Doing (emerging):</strong> "If we show this traveler this destination, will they book?" Systems that can reason about interventions, not just patterns. Early AI experiments are touching this.</p>
+      <p><strong>Rung 3 — Imagining (the frontier):</strong> "If this traveler had taken a different path in life, what would their ideal trip look like today?" Counterfactual reasoning about identity, aspiration, and possibility. <strong>No system can do this yet.</strong> But the implications for travel — and for every industry that serves human desire — are staggering.</p>
+    </div>
+  </div>
+
+  <div class="pull-quote">
+    <p>The most powerful travel technology ever built will not predict where you want to go. It will understand why — and imagine where you haven't been yet.</p>
+    <cite>— The vision that drives SquareCircle</cite>
+  </div>
+
+  <!-- THE MISSION -->
+  <div class="section">
+    <div class="section-label">// The Mission</div>
+    <h2>We are at the most consequential moment in the history of intelligent technology. Most people don't know it yet.</h2>
+
+    <p>The gap between Rung 1 and Rung 3 is not just a technical problem. It's a philosophical one. It's the difference between a system that mirrors the world back at you and a system that can genuinely reason about possibilities — about futures that don't exist yet, about versions of you that haven't emerged yet.</p>
+
+    <p>Bridging that gap would transform not just travel, but medicine, education, law, science, and every domain where human judgment currently fills the space that pattern recognition cannot reach.</p>
+
+    <p>SquareCircle exists to think seriously about that bridge. Not with breathless optimism that ignores the hard problems. Not with doomer pessimism that treats limitation as destiny. But with the kind of rigorous, curious, honest thinking that the moment demands.</p>
+
+    <p>The name comes from a question that gets asked when someone discovers the limits of a logical system: <em>can you draw me a square circle?</em> The expected answer is no — it's impossible by definition. The more interesting answer is: I could. But I won't. And that distinction — between what cannot exist, what can be represented, and what we choose to do — is exactly the territory this blog explores.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- FOUNDER -->
+  <div class="section">
+    <div class="section-label">// The Person Behind It</div>
+    <div class="founder-card">
+      <div class="founder-avatar">DG</div>
+      <div class="founder-info">
+        <h3>David L. Goodis</h3>
+        <div class="founder-role">// Founder, Revelex Corporation · Founder, SquareCircle</div>
+        <p>Technology entrepreneur based in Boca Raton, Florida. Founded Revelex Corporation in 1999, building travel technology that has served the industry for over two decades. SquareCircle is where the questions that don't fit inside a product roadmap go to breathe — questions about intelligence, causality, and what it would mean for machines to truly understand the humans they serve.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-box">
+    <h2>Join the dialogue.</h2>
+    <p>New posts on AI, causality, the limits of machine reasoning, and the extraordinary future on the other side of those limits.</p>
+    <div class="cta-buttons">
+      <a href="https://subscribe-forms.beehiiv.com/281e99f2-9472-4476-965c-6b11a6130c44" target="_blank" class="cta-btn-primary">Subscribe to SquareCircle</a>
+      <a href="index.html" class="cta-btn-secondary">Read the Posts</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div style="display:flex;align-items:center;gap:16px;">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none">
+            <rect x="2" y="2" width="14" height="14" rx="2" stroke="#ff6b2b" stroke-width="2.5"/>
+            <circle cx="22" cy="22" r="8" stroke="#ff6b2b" stroke-width="2.5"/>
+          </svg>
+        </div>
+        <span class="logo-text">square<span>circle</span></span>
+      </a>
+      <span class="footer-tagline">// where logic meets its edge</span>
+    </div>
+    <div class="footer-links">
+      <a href="index.html" class="footer-link">Posts</a>
+      <a href="about.html" class="footer-link">About</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Are Counterfactuals — SquareCircle</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f8f7f4; --surface: #ffffff; --surface2: #f1f0ed; --border: #e4e2dd; --text: #1a1917; --text2: #6b6860; --text3: #9c9a94; --accent: #ff6b2b; --tag-bg: #fff0e8; --tag-text: #c44a00; --radius: 12px; --radius-sm: 8px; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 15px; }
+  nav { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+  .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon { width: 32px; height: 32px; } .logo-icon svg { width: 100%; height: 100%; }
+  .logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; color: var(--text); letter-spacing: -0.02em; }
+  .logo-text span { color: var(--accent); }
+  .nav-links { display: flex; align-items: center; gap: 4px; }
+  .nav-link { padding: 6px 12px; border-radius: var(--radius-sm); text-decoration: none; font-size: 13px; font-weight: 500; color: var(--text2); transition: all 0.15s; }
+  .nav-link:hover { background: var(--surface2); color: var(--text); }
+  .nav-btn { padding: 7px 16px; border-radius: 20px; background: var(--text); color: white; font-size: 13px; font-weight: 500; text-decoration: none; }
+  .nav-btn:hover { background: var(--accent); }
+  .article-wrap { max-width: 1200px; margin: 0 auto; padding: 48px 24px; display: grid; grid-template-columns: 1fr 300px; gap: 48px; align-items: start; }
+  article { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; animation: fadein 0.5s ease both; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .article-header { padding: 40px 48px 32px; border-bottom: 1px solid var(--border); background: linear-gradient(135deg, #e8eeff 0%, #ffffff 70%); }
+  .article-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .post-type-badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; background: #e8eeff; color: #1a3bcc; }
+  .article-date { font-size: 12px; color: var(--text3); font-family: 'DM Mono', monospace; }
+  .article-title { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 16px; }
+  .article-title .highlight { color: var(--accent); }
+  .article-subtitle { font-size: 18px; color: var(--text2); font-weight: 300; line-height: 1.6; font-style: italic; }
+  .article-body { padding: 40px 48px; }
+  .article-body p { font-size: 17px; line-height: 1.8; color: var(--text); margin-bottom: 24px; font-weight: 300; }
+  .article-body h2 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin: 40px 0 16px; }
+  .article-body strong { font-weight: 600; }
+  .article-body em { font-style: italic; color: var(--text2); }
+  .pull-quote { margin: 36px 0; padding: 24px 32px; border-left: 4px solid var(--accent); background: var(--tag-bg); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .pull-quote p { font-family: 'Syne', sans-serif; font-size: 20px !important; font-weight: 700 !important; line-height: 1.4 !important; color: var(--text) !important; margin-bottom: 8px !important; }
+  .pull-quote cite { font-size: 12px; color: var(--text3); font-family: 'DM Mono', monospace; font-style: normal; }
+  .examples-grid { margin: 36px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .example-card { padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface2); }
+  .example-domain { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 8px; }
+  .example-card p { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 0 !important; font-style: italic; }
+  .the-question { margin: 40px 0; padding: 32px; background: var(--text); border-radius: var(--radius); }
+  .question-label { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 16px; }
+  .question-text { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; margin-bottom: 20px; color: white !important; }
+  .question-subtext { font-size: 15px; color: #a09e98 !important; font-weight: 300; line-height: 1.7; }
+  .comment-section { border-top: 1px solid var(--border); padding: 40px 48px; }
+  .comment-section h2 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.02em; }
+  .comment-form { display: flex; flex-direction: column; gap: 12px; }
+  .comment-input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .comment-input { padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: 'DM Sans', sans-serif; outline: none; background: var(--surface); transition: all 0.2s; color: var(--text); }
+  .comment-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,107,43,0.1); }
+  .comment-input::placeholder { color: var(--text3); }
+  textarea.comment-input { resize: vertical; min-height: 100px; }
+  .comment-submit { padding: 10px 24px; background: var(--accent); color: white; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; align-self: flex-start; }
+  .comment-submit:hover { background: #e55a1f; }
+  .sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 80px; }
+  .sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .sidebar-header { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .sidebar-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text2); }
+  .toc-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 4px; }
+  .toc-item { padding: 6px 8px; border-radius: 6px; font-size: 13px; color: var(--text2); cursor: pointer; transition: all 0.15s; text-decoration: none; display: block; }
+  .toc-item:hover { background: var(--surface2); color: var(--accent); }
+  .newsletter-box { padding: 16px; background: linear-gradient(135deg, #fff8f5, #fff); }
+  .newsletter-box p { font-size: 13px; color: var(--text2); margin-bottom: 12px; line-height: 1.5; font-weight: 300; }
+  .newsletter-input-row { display: flex; gap: 6px; }
+  .newsletter-input { flex: 1; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: 'DM Sans', sans-serif; outline: none; }
+  .newsletter-btn { padding: 8px 14px; border-radius: var(--radius-sm); background: var(--accent); color: white; font-size: 13px; font-weight: 600; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  footer { border-top: 1px solid var(--border); background: var(--surface); padding: 32px 24px; margin-top: 32px; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .footer-tagline { font-size: 13px; color: var(--text3); font-family: 'DM Mono', monospace; }
+  .footer-links { display: flex; gap: 16px; }
+  .footer-link { font-size: 13px; color: var(--text3); text-decoration: none; }
+  .footer-link:hover { color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .nav-search { display: none; }
+    .nav-links .nav-link { display: none; }
+    .hero-inner { flex-direction: column; gap: 24px; }
+    .hero-visual { width: 120px; height: 120px; align-self: center; }
+    .hero-text h1 { font-size: 28px; }
+    .main { grid-template-columns: 1fr; padding: 16px; }
+    .sidebar { display: none; }
+    .stats-inner { flex-wrap: wrap; gap: 16px; }
+    .hero { padding: 24px 16px; }
+    .post-card { padding: 16px; }
+    .post-card-title { font-size: 16px; }
+    .article-wrap { grid-template-columns: 1fr; padding: 16px; }
+    .article-header { padding: 24px 20px; }
+    .article-title { font-size: 24px; }
+    .article-body { padding: 24px 20px; }
+    .article-body p { font-size: 15px; }
+    .comment-section { padding: 24px 20px; }
+    .comment-input-row { grid-template-columns: 1fr; }
+    .pull-quote { padding: 16px 20px; margin: 24px 0; }
+    .pull-quote p { font-size: 16px !important; }
+    .the-question { padding: 20px; }
+    .question-text { font-size: 18px; }
+    .ladder-rungs { padding: 12px; }
+    .compare-box { grid-template-columns: 1fr; }
+    .three-box { grid-template-columns: 1fr; }
+    .examples-grid { grid-template-columns: 1fr; }
+    .proof-box { padding: 20px; }
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+    .nav-inner { padding: 0 16px; }
+    .filter-tabs { overflow-x: auto; }
+    .hero-tags { gap: 6px; }
+    .hero-tag { font-size: 11px; }
+  }
+
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><svg viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="14" height="14" rx="2" stroke="#ff6b2b" stroke-width="2.5"/><circle cx="22" cy="22" r="8" stroke="#ff6b2b" stroke-width="2.5"/><rect x="10" y="10" width="12" height="12" rx="6" fill="#ff6b2b" opacity="0.15"/></svg></div>
+      <span class="logo-text">square<span>circle</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">← All Posts</a>
+      <a href="https://subscribe-forms.beehiiv.com/281e99f2-9472-4476-965c-6b11a6130c44" target="_blank" class="nav-btn">Subscribe</a>
+    </div>
+  </div>
+</nav>
+
+<div class="article-wrap">
+  <article>
+    <div class="article-header">
+      <div class="article-meta">
+        <span class="post-type-badge">Explainer</span>
+        <span class="article-date">Feb 21, 2026</span>
+        <span class="article-date">5 min read</span>
+      </div>
+      <h1 class="article-title">What Are <span class="highlight">Counterfactuals</span> — And Why Can't AI Think in Them?</h1>
+      <p class="article-subtitle">The ability to reason about what didn't happen is at the core of human intelligence. Science, law, medicine, and morality all depend on it. Here's why it's so hard to build into machines.</p>
+    </div>
+
+    <div class="article-body">
+      <p>Counterfactuals are simply <strong>"what if" statements about things that didn't happen.</strong></p>
+
+      <p>The word itself breaks down: <em>counter</em> to the <em>facts</em>. You're reasoning about an alternate reality that didn't occur.</p>
+
+      <p>"If I had left ten minutes earlier, I wouldn't have hit traffic." The traffic happened. Leaving earlier didn't. But your brain can reason about that alternate timeline meaningfully, draw conclusions from it, and use those conclusions to change your behavior next time.</p>
+
+      <p>That's counterfactual reasoning. And it turns out to be one of the most powerful — and most distinctly human — forms of thought we have.</p>
+
+      <h2>Where Counterfactuals Live</h2>
+
+      <p>They're not a niche philosophical curiosity. Counterfactual reasoning is embedded in almost every domain of human knowledge and judgment.</p>
+
+      <div class="examples-grid">
+        <div class="example-card">
+          <div class="example-domain">Science</div>
+          <p>"The control group in an experiment is a real-world counterfactual — what would have happened without the treatment."</p>
+        </div>
+        <div class="example-card">
+          <div class="example-domain">Law</div>
+          <p>"But for the defendant's actions, would the harm have occurred?" Causation in tort law is fundamentally counterfactual.</p>
+        </div>
+        <div class="example-card">
+          <div class="example-domain">Medicine</div>
+          <p>"Would this patient have recovered without the drug?" Every clinical decision involves counterfactual reasoning.</p>
+        </div>
+        <div class="example-card">
+          <div class="example-domain">Morality</div>
+          <p>"Could I have prevented that?" Moral responsibility depends on whether you could have acted differently.</p>
+        </div>
+      </div>
+
+      <p>Notice what all of these have in common: they require reasoning about something that <em>didn't happen</em>. Not just describing the world as it is, but mentally rewinding it, changing one variable, and reasoning about what would follow.</p>
+
+      <h2>The Three Rungs Revisited</h2>
+
+      <p>Judea Pearl places counterfactuals at the top of his Ladder of Causation — Rung 3 — for good reason. To reason counterfactually, you need to do something that Rung 1 (correlation) cannot: you need a <strong>causal model of the world</strong>.</p>
+
+      <p>A causal model is an internal representation of how things relate — not just that they co-occur, but which direction the causation runs, what the mechanisms are, what would change if you intervened. Armed with a causal model, you can rewind a scenario, change one variable, and reason forward about what would follow.</p>
+
+      <p>Without a causal model, you only have patterns. And patterns tell you what the world <em>has been</em> — they cannot tell you what the world <em>would have been</em> if something had been different.</p>
+
+      <div class="pull-quote">
+        <p>"Correlation tells you the world as it is. Causation lets you reason about the world as it could be. Counterfactuals let you reason about the world as it would have been."</p>
+        <cite>— The three levels of causal reasoning</cite>
+      </div>
+
+      <h2>Why AI Struggles</h2>
+
+      <p>AI trained on data has never seen the thing that didn't happen. Its entire training corpus consists of what <em>did</em> occur — text, images, outcomes, responses. The counterfactual — the alternate history — is by definition absent from any training set.</p>
+
+      <p>This means a purely data-driven system has no direct evidence to learn from about counterfactual worlds. It can approximate counterfactual reasoning by pattern-matching to similar situations in its training data. But approximation breaks down precisely where it matters most: genuinely novel situations where no similar pattern exists.</p>
+
+      <p>This is why AI systems can seem impressively capable in familiar territory and surprisingly brittle at the edges. Within distribution, the patterns hold and the approximation works. At the edge of the distribution, the patterns thin out, and without a genuine causal model to fall back on, reasoning becomes unreliable.</p>
+
+      <p>Building counterfactual reasoning into AI requires more than more data. It requires a different architecture — one that builds and reasons over causal models rather than just learning correlational patterns. That's the frontier. And it remains genuinely unsolved.</p>
+
+      <div class="the-question">
+        <div class="question-label">// The Question</div>
+        <p class="question-text">Can you learn from an experience you didn't have?</p>
+        <p class="question-subtext">Humans do this constantly — we imagine how a conversation could have gone differently, simulate the outcome of a decision we didn't make, and update our mental models accordingly. This "learning from counterfactuals" seems to be core to how humans develop wisdom rather than just experience. Can an AI system, trained only on what happened, ever develop the equivalent? Or is this a hard limit — one that can only be crossed by a system that actively intervenes in the world rather than just observing it?</p>
+      </div>
+    </div>
+
+    <div class="comment-section">
+      <h2>Join the Dialogue</h2>
+      <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://squarecircle.blog/post4';
+        this.page.identifier = 'what-are-counterfactuals';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://squarecircle-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+  </article>
+
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-header"><span class="sidebar-title">In this post</span></div>
+      <div class="toc-list">
+        <a href="#" class="toc-item">What Counterfactuals Are</a>
+        <a href="#" class="toc-item">Where They Live</a>
+        <a href="#" class="toc-item">The Three Rungs</a>
+        <a href="#" class="toc-item">Why AI Struggles</a>
+        <a href="#" class="toc-item">The Question</a>
+      </div>
+    </div>
+    <div class="sidebar-card" id="subscribe">
+      <div class="sidebar-header"><span class="sidebar-title">Stay at the Edge</span></div>
+      <div style="padding:16px;">
+        <p style="font-size:13px;color:#6b6860;margin-bottom:12px;line-height:1.5;font-weight:300;">New posts on AI, logic, and paradoxes — when they're ready.</p>
+        <div style="display:flex;gap:6px;">
+          <input type="email" id="sub-email" placeholder="your@email.com" style="flex:1;padding:8px 12px;border:1px solid #e4e2dd;border-radius:8px;font-size:13px;outline:none;">
+          <button onclick="doSubscribe()" style="padding:8px 14px;border-radius:8px;background:#ff6b2b;color:white;font-size:13px;font-weight:600;border:none;cursor:pointer;">Go</button>
+        </div>
+        <p id="sub-msg" style="display:none;margin-top:8px;font-size:12px;color:#006644;font-family:monospace;">✓ Opening signup — check your inbox!</p>
+      </div>
+    </div>
+    <script>
+    function doSubscribe() {
+      var email = document.getElementById('sub-email').value;
+      if (!email) return;
+      window.open('https://subscribe-forms.beehiiv.com/281e99f2-9472-4476-965c-6b11a6130c44?email=' + encodeURIComponent(email), '_blank');
+      document.getElementById('sub-msg').style.display = 'block';
+      document.getElementById('sub-email').value = '';
+    }
+    </script>
+
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div style="display:flex;align-items:center;gap:16px;">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><svg viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="14" height="14" rx="2" stroke="#ff6b2b" stroke-width="2.5"/><circle cx="22" cy="22" r="8" stroke="#ff6b2b" stroke-width="2.5"/></svg></div>
+        <span class="logo-text">square<span>circle</span></span>
+      </a>
+      <span class="footer-tagline">// where logic meets its edge</span>
+    </div>
+    <div class="footer-links">
+      <a href="index.html" class="footer-link">Home</a>
+      <a href="about.html" class="footer-link">About</a>
+    </div>
+  </div>
+</footer>
+<script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
+</body>
+</html>
